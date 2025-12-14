@@ -161,6 +161,9 @@ def build_bay_area_gpkg_for_year(
     return merged
 
 
+#Here is the function that is being place into the notebook. 
+
+
 def add_county_columns(acs_df: pd.DataFrame) -> pd.DataFrame:
     """
     Add county GEOID and county name derived from tract GEOID.
