@@ -1,0 +1,16 @@
+name: redlining_acs
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - geopandas
+  - shapely
+  - fiona
+  - pyproj
+  - rtree
+  - pip
