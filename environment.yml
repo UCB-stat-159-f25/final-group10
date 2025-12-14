@@ -1,0 +1,13 @@
+name: acs-plots
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas
+  - geopandas
+  - matplotlib
+  - seaborn
+  - scipy
+  - contextily
+  - jupyterlab
+  - notebook

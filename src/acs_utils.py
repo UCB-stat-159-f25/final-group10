@@ -1,194 +1,3 @@
-Ask; Can you help me translated these R code into python? 
-
-library(tidycensus)
-library(tidyverse)
-
-census_api_key("9f71f9a4629f213f2f0dded67b14a4b1bbcfb23e", install = TRUE)
-
-years <- 2009:2022
-
-bay_counties <- c("Alameda", "Contra Costa", "San Francisco",
-                  "San Mateo", "Santa Clara")
-
-get_table_year <- function(tbl, yr) {
-  get_acs(
-    geography = "tract",
-    state = "CA",
-    county = bay_counties,
-    table = tbl,
-    year = yr,
-    survey = "acs5",
-    output = "wide",
-    geometry = FALSE
-  ) %>% 
-    mutate(year = yr, table = tbl)
-}
-
-
-```
-
-```{r}
-#the race part 
-race_all <- purrr::map_df(years, ~ get_table_year("B03002", .x))
-
-head(race_all)
-```
-```{r}
-readRenviron("~/.Renviron")
-income_all <- purrr::map_df(years, ~ get_table_year("B19013", .x))
-
-```
-
-
-```{r}
-readRenviron("~/.Renviron")
-homevalue_all <- purrr::map_df(years, ~ get_table_year("B25077", .x))
-tenure_all <- purrr::map_df(years, ~ get_table_year("B25003", .x))
-
-```
-
-
-```{r}
-race_clean <- race_all %>%
-  transmute(
-    GEOID,
-    NAME,
-    year,
-    total_pop      = B03002_001E,
-    white_nh       = B03002_003E,  # White alone, not Hispanic
-    black_nh       = B03002_004E,  # Black alone, not Hispanic
-    native_nh      = B03002_005E,  # American Indian/Alaska Native
-    asian_nh       = B03002_006E,
-    nhpi_nh        = B03002_007E,  # Native Hawaiian/Other Pacific Islander
-    other_nh       = B03002_008E,
-    two_plus_nh    = B03002_009E,
-    hispanic       = B03002_012E   # Hispanic or Latino (any race)
-  ) %>%
-  mutate(
-    pct_white_nh  = white_nh  / total_pop,
-    pct_black_nh  = black_nh  / total_pop,
-    pct_asian_nh  = asian_nh  / total_pop,
-    pct_hispanic  = hispanic  / total_pop,
-    pct_poc       = 1 - (white_nh / total_pop)
-  )
-
-
-head(race_clean)
-
-income_clean <- income_all %>%
-  transmute(
-    GEOID,
-    year,
-    median_income = B19013_001E
-  )
-
-homevalue_clean <- homevalue_all %>%
-  transmute(
-    GEOID,
-    year,
-    median_home_value = B25077_001E
-  )
-
-
-tenure_clean <- tenure_all %>%
-  transmute(
-    GEOID,
-    year,
-    housing_units_total = B25003_001E,
-    owner_occupied      = B25003_002E,
-    renter_occupied     = B25003_003E
-  ) %>%
-  mutate(
-    homeownership_rate = owner_occupied / housing_units_total,
-    renter_rate        = renter_occupied / housing_units_total
-  )
-```
-
-```{r}
-acs_full <- race_clean %>%
-  left_join(income_clean,    by = c("GEOID", "year")) %>%
-  left_join(homevalue_clean, by = c("GEOID", "year")) %>%
-  left_join(tenure_clean,    by = c("GEOID", "year"))
-
-
-glimpse(acs_full)
-n_distinct(acs_full$GEOID)
-range(acs_full$year)
-```
-
-```{r}
-write_csv(acs_full, "acs_bayarea_2009_2022_all_tables.csv")
-```
-
-
-
-```{r}
-install.packages("tigris")
-install.packages("sf")
-
-library(tigris)
-library(sf)
-
-# cache downloads so you don't re-download every time
-options(tigris_use_cache = TRUE)
-
-
-```
-
-```{r}
-bay_fips <- c("001", "013", "075", "081", "085")
-
-ca_tracts_2020 <- tracts(
-  state = "CA",
-  year = 2020,
-  cb = TRUE  # generalized (smaller) shapes, good for mapping
-)
-
-# Keep only Bay Area counties
-bay_tracts <- ca_tracts_2020[ca_tracts_2020$COUNTYFP %in% bay_fips, ]
-
-# Keep only GEOID + geometry (and maybe NAME if you like)
-bay_tracts <- bay_tracts[, c("GEOID", "NAME", "geometry")]
-
-```
-```{r}
-st_write(bay_tracts, "bayarea_tracts_2020.shp")
-
-```
-
-```{r}
-library(dplyr)
-library(readr)
-
-# join the shapfile with the ACS for it to plot. 
-
-acs <- read_csv("acs_bayarea_2009_2022_all_tables.csv")
-
-acs_2022 <- acs %>% filter(year == 2022)
-
-acs_2022_sf <- bay_tracts %>%
-  left_join(acs_2022, by = "GEOID")
-
-st_write(acs_2022_sf, "acs_bayarea_2022_with_geometry.gpkg",
-         layer = "acs_2022",
-         delete_layer = TRUE)
-
-
-
-
-From your Rmd, the core things you’re doing are:
-
-Fetch / load ACS tables across years
-
-Clean into “analysis-ready” columns (race, income, home value, tenure rates)
-
-Join to Bay Area tract geometries (TIGER/Line)
-
-Export to GPKG + plot
-
-Below is a Python module you can drop into src/acs_utils.py that mirrors that workflow.
-
-src/acs_utils.py
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -198,9 +7,12 @@ from typing import Iterable, Optional, Sequence
 import pandas as pd
 import geopandas as gpd
 
+#did this in R first, and translated into python
 
-# --- Bay Area county FIPS (CA) ---
+#  Bay Area county FIPS (CA) 
 # These are widely used for Bay Area definitions (9-county).
+
+
 BAY_AREA_COUNTY_FIPS = {
     "Alameda": "001",
     "Contra Costa": "013",
@@ -251,7 +63,7 @@ def clean_tenure_b25003_wide(
     renter_col: str = "B25003_003E",
 ) -> pd.DataFrame:
     """
-    Mirror your R:
+    Mirror R:
       housing_units_total = B25003_001E
       owner_occupied      = B25003_002E
       renter_occupied     = B25003_003E
@@ -277,7 +89,6 @@ def clean_tenure_b25003_wide(
 def fetch_ca_tracts(year: int) -> gpd.GeoDataFrame:
     """
     Download CA tract geometries from TIGER/Line for a given year.
-    Equivalent idea to tigris::tracts(state="CA", year=...)
     """
     # CA state FIPS is 06
     url = f"https://www2.census.gov/geo/tiger/TIGER{year}/TRACT/tl_{year}_06_tract.zip"
