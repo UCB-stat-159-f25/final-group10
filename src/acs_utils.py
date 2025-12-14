@@ -159,3 +159,55 @@ def build_bay_area_gpkg_for_year(
 
     write_gpkg(merged, out_path, layer=layer)
     return merged
+
+
+def add_county_columns(acs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Add county GEOID and county name derived from tract GEOID.
+    """
+    df = acs_df.copy()
+    df["county_geoid"] = df["GEOID"].str[:5]
+
+    county_fips_to_name = {
+        "06001": "Alameda",
+        "06013": "Contra Costa",
+        "06075": "San Francisco",
+        "06081": "San Mateo",
+        "06085": "Santa Clara",
+    }
+
+    df["county_name"] = df["county_geoid"].map(county_fips_to_name)
+    return df
+
+
+def pop_weighted_mean(
+    group: pd.DataFrame,
+    value_col: str,
+    weight_col: str = "total_pop",
+) -> float:
+    """
+    Compute population-weighted mean for a group.
+    """
+    w = group[weight_col]
+    v = group[value_col]
+    return (v * w).sum() / w.sum()
+
+
+def aggregate_tracts_to_county_year(acs_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Aggregate tract-level ACS data to county-year level.
+    """
+    return (
+        acs_df.groupby(["county_geoid", "county_name", "year"])
+        .apply(
+            lambda g: pd.Series(
+                {
+                    "total_pop": g["total_pop"].sum(),
+                    "median_home_value": pop_weighted_mean(g, "median_home_value"),
+                    "median_income": pop_weighted_mean(g, "median_income"),
+                    "pct_poc": pop_weighted_mean(g, "pct_poc"),
+                }
+            )
+        )
+        .reset_index()
+    )
