@@ -1,0 +1,12 @@
+name: acs_charts_maps
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.12
+  - pandas
+  - matplotlib
+  - seaborn
+  - geopandas
+  - contextily
+  - pip
