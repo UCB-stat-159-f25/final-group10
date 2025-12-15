@@ -16,31 +16,36 @@ This project examines whether historical redlining continues to shape housing ou
   Federal Reserve Economic Data (FRED):  
   https://fred.stlouisfed.org/tags/series?t=redlining
 
-All datasets are publicly available and were obtained as pre-aggregated historical or survey-based data.
 
 ---
 
 ## Analysis Overview
-The project consists of three main components:
+The project consists of 2 main components:
 1. **Historical Context**: Time-series exploration of national housing and demographic patterns by HOLC grade.
 2. **Bay Area Case Study**: Spatial analysis combining HOLC maps with ACS data for selected Bay Area counties.
-3. **Difference-in-Differences Analysis**: An exploratory DiD model comparing historically redlined and non-redlined areas before and after the 1968 Fair Housing Act, including a parallel trends check and regression analysis.
 
 The primary outcome of interest is median home value.
 
 ---
 
 ## Repository Structure
-├── data/ # Raw and processed datasets
-├── figures/ # Generated plots and maps
-├── src/ # Reusable analysis and modeling functions
-│ └── did_utils.py
-├── notebooks/
-│ ├── 01_holc_timeseries_exploration.ipynb
-│ ├── holc_redlining_bay_area.ipynb
-│ └── main_analysis.ipynb
-├── environment.yml
-└── README.md
+
+**`data`**: Contains raw and processed datasets used in the analysis
+
+**`figures`**: Contains generated figures, maps, and plots
+
+**`src`**: Contains reusable analysis and modeling functions  
+
+**`Main.ipynb`**: Main project notebook summarizing methods, results, and findings
+
+**`01_holc_timeseries_exploration.ipynb`**: National-level HOLC time series exploration  
+**`holc_redlining_bay_area.ipynb`**: Bay Area HOLC and ACS spatial analysis  
+**`ACSdataPlots.ipynb`**: ACS data exploration
+
+**`environment.yml`**: Conda environment file specifying required packages
+
+**`README.md`**: Project overview and instructions for running the analysis
+
 
 ---
 
