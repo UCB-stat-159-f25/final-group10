@@ -1,1 +1,67 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/sSkqmNLf)
+# From Redlining to Today: HOLC Grades and Housing Inequality in the Bay Area
+
+## Project Motivation
+This project examines whether historical redlining continues to shape housing outcomes decades after discriminatory policies were formally banned. Using Home Owners’ Loan Corporation (HOLC) redlining maps alongside U.S. Census and housing value data, we explore whether neighborhoods and counties with greater historical redlining exposure experienced different housing value trajectories after the 1968 Fair Housing Act. The analysis is exploratory in nature and aims to understand long-run patterns rather than establish definitive causal claims.
+
+---
+
+## Data Sources
+- **HOLC Redlining Maps**  
+  Mapping Inequality Project (University of Richmond):  
+  https://dsl.richmond.edu/panorama/redlining/
+- **Housing and Demographic Data**  
+  U.S. Census Bureau / American Community Survey (ACS)
+- **Supplementary National Data**  
+  Federal Reserve Economic Data (FRED):  
+  https://fred.stlouisfed.org/tags/series?t=redlining
+
+All datasets are publicly available and were obtained as pre-aggregated historical or survey-based data.
+
+---
+
+## Analysis Overview
+The project consists of three main components:
+1. **Historical Context**: Time-series exploration of national housing and demographic patterns by HOLC grade.
+2. **Bay Area Case Study**: Spatial analysis combining HOLC maps with ACS data for selected Bay Area counties.
+3. **Difference-in-Differences Analysis**: An exploratory DiD model comparing historically redlined and non-redlined areas before and after the 1968 Fair Housing Act, including a parallel trends check and regression analysis.
+
+The primary outcome of interest is median home value.
+
+---
+
+## Repository Structure
+├── data/ # Raw and processed datasets
+├── figures/ # Generated plots and maps
+├── src/ # Reusable analysis and modeling functions
+│ └── did_utils.py
+├── notebooks/
+│ ├── 01_holc_timeseries_exploration.ipynb
+│ ├── holc_redlining_bay_area.ipynb
+│ └── main_analysis.ipynb
+├── environment.yml
+└── README.md
+
+---
+
+## Installation and Setup
+
+### 1. Create the environment
+```bash
+conda env create -f environment.yml
+conda activate redlining-analysis
+```
+### 2. jupyter lab
+
+## Running the Analysis
+1. Ensure all data files are located in the data/ directory.
+2. Open notebooks/main_analysis.ipynb.
+3. Run all cells from top to bottom to reproduce figures, tables, and results.
+4. Generated plots will be saved automatically to the figures/ directory.
+
+## Testing and Reproducibility
+Core analytical steps (e.g., difference-in-differences regression) are modularized in src/ to improve reproducibility and clarity. While formal unit testing is limited due to the exploratory nature of the analysis, functions are designed to be reusable and transparent. Re-running the main notebook from a clean environment reproduces all results and figures.
+
+## Notes
+
+This project is exploratory and descriptive. While statistical models are used, results should be interpreted as suggestive patterns rather than definitive causal estimates. The analysis highlights how historical institutional practices may continue to shape present-day housing outcomes despite later policy interventions.
