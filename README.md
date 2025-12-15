@@ -1,5 +1,9 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/sSkqmNLf)
+
 # From Redlining to Today: HOLC Grades and Housing Inequality in the Bay Area
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCB-stat-159-f25/final-group10/main?labpath=Main.ipynb)
+
+
 
 ## Project Motivation
 This project examines whether historical redlining continues to shape housing outcomes decades after discriminatory policies were formally banned. Using Home Owners’ Loan Corporation (HOLC) redlining maps alongside U.S. Census and housing value data, we explore whether neighborhoods and counties with greater historical redlining exposure experienced different housing value trajectories after the 1968 Fair Housing Act. The analysis is exploratory in nature and aims to understand long-run patterns rather than establish definitive causal claims.
