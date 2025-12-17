@@ -1,4 +1,4 @@
-name: redlining_acs
+name: final-proj-grp10
 channels:
   - conda-forge
   - nodefaults
@@ -9,8 +9,23 @@ dependencies:
   - matplotlib
   - seaborn
   - geopandas
+  - pandas
+  - geopandas
+  - matplotlib
+  - seaborn
+  - scipy
+  - contextily
+  - jupyterlab
+  - notebook
+  - nbconvert
+  - myst-parser
+  - pytest
+  - statsmodels
+  - openpyxl
   - shapely
   - fiona
   - pyproj
   - rtree
   - pip
+  - pip:
+    - myst-nb
