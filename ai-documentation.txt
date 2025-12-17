@@ -1,3 +1,72 @@
+Redlining in Bay Area Notebook:
+
+Prompt: can you help me plot zoomed in cities like they appear on this map? only separately? also add a legend based on the dictionary? fig, ax = plt.subplots(figsize=(10, 10)) (light gray land background) bay_outline.plot( ax=ax, color="#e6e6e6", edgecolor="black", linewidth=0.8, alpha=1.0 ) # 2. HOLC polygons, colored by grade using the fill column holc.plot( ax=ax, color=holc["fill"], alpha=0.7, edgecolor="black", linewidth=0.3 ) ax.set_xlim(holc.total_bounds[0], holc.total_bounds[2]) ax.set_ylim(holc.total_bounds[1], holc.total_bounds[3]) ax.set_title("HOLC: Graded Areas in the Bay Area (Colored by Grade)", fontsize=15) ax.set_axis_off() plt.show()
+
+Answer: 
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+
+# Dictionary of grade → fill color
+grade_color_map = (
+    holc[["grade", "fill"]]
+    .dropna()
+    .drop_duplicates()
+    .set_index("grade")["fill"]
+    .to_dict()
+)
+
+# List of unique HOLC cities
+cities = holc["city"].unique()
+
+for city in cities:
+    # Subset HOLC to one city
+    holc_city = holc[holc["city"] == city]
+
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    # --- 1. Bay Area county outline ---
+    bay_outline.plot(
+        ax=ax,
+        color="#e6e6e6",
+        edgecolor="black",
+        linewidth=0.8,
+        alpha=1.0
+    )
+
+    # --- 2. HOLC polygons for this city, colored by grade ---
+    holc_city.plot(
+        ax=ax,
+        color=holc_city["fill"],
+        alpha=0.7,
+        edgecolor="black",
+        linewidth=0.3
+    )
+
+    # --- 3. Zoom tightly to this city's extents ---
+    bounds = holc_city.total_bounds
+    ax.set_xlim(bounds[0], bounds[2])
+    ax.set_ylim(bounds[1], bounds[3])
+
+    # --- 4. Custom legend using dictionary ---
+    legend_handles = []
+    for grade, color in grade_color_map.items():
+        patch = mpatches.Patch(color=color, label=f"Grade {grade}")
+        legend_handles.append(patch)
+
+    ax.legend(
+        handles=legend_handles,
+        title="HOLC Grade",
+        loc="upper left",
+        bbox_to_anchor=(1.02, 1),
+        borderaxespad=0
+    )
+
+    # --- 5. Title and formatting ---
+    ax.set_title(f"HOLC Map: {city}", fontsize=16)
+    ax.set_axis_off()
+
+    plt.tight_layout()
+    plt.show()
 Ask; Can you help me translated these R code into python? 
 
 library(tidycensus)
