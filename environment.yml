@@ -1,6 +1,7 @@
 name: acs-plots
 channels:
   - conda-forge
+  - nodefaults
 dependencies:
   - python=3.11
   - pandas
@@ -16,6 +17,10 @@ dependencies:
   - pytest
   - statsmodels
   - openpyxl
+  - shapely
+  - fiona
+  - pyproj
+  - rtree
   - pip
   - pip:
     - myst-nb
