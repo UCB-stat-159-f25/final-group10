@@ -7,8 +7,8 @@ env:
 
 # Run all notebooks (Main.ipynb + analysis/)
 all:
-	jupyter nbconvert --to notebook --execute --inplace Main.ipynb
-	jupyter nbconvert --to notebook --execute --inplace analysis/*.ipynb
+	PYTHONPATH=. jupyter nbconvert --to notebook --execute --inplace Main.ipynb
+	PYTHONPATH=. jupyter nbconvert --to notebook --execute --inplace analysis/*.ipynb
 
 
 # Build MyST HTML site

@@ -11,3 +11,11 @@ dependencies:
   - contextily
   - jupyterlab
   - notebook
+  - nbconvert
+  - myst-parser
+  - pytest
+  - statsmodels
+  - openpyxl
+  - pip
+  - pip:
+    - myst-nb
