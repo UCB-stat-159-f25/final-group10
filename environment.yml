@@ -1,9 +1,14 @@
-name: acs-plots
+name: final-proj-grp10
 channels:
   - conda-forge
   - nodefaults
 dependencies:
-  - python=3.11
+  - python=3.12
+  - pandas
+  - numpy
+  - matplotlib
+  - seaborn
+  - geopandas
   - pandas
   - geopandas
   - matplotlib
