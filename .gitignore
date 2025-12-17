@@ -7,3 +7,6 @@ env/
 pdf_builds/
 _build/
 *.log
+
+# MyST build outputs
+_build
