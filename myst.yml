@@ -8,9 +8,14 @@ project:
   # keywords: []
   authors:
   - name: Emily Ma
+    affiliations: [ubc]
   - name: Larissa Arreola Moreno
+    affiliations: [ubc]
   - name: Vittal Vasudevan
+    affiliations: [ubc]
   - name: Daniel Porter
+    affiliations: [ubc]
+
     affiliations:
       - id: ubc
         institution: University of California, Berkeley
