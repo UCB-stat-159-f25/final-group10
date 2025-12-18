@@ -3,6 +3,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/UCB-stat-159-f25/final-group10/main?labpath=Main.ipynb)
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17970670.svg)](https://doi.org/10.5281/zenodo.17970670)
 
 
 ## Project Motivation
