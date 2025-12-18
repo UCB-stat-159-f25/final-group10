@@ -1,9 +1,11 @@
 {
   "input": {
-    "files": [],
+    "files": [
+      "analysis/03_acs_data_bay_area.ipynb"
+    ],
     "opts": {
       "execute": false,
-      "pdf": false,
+      "pdf": true,
       "tex": false,
       "typst": false,
       "docx": false,
@@ -12,7 +14,7 @@
       "meca": false,
       "cff": false,
       "site": false,
-      "html": true,
+      "html": false,
       "all": false,
       "doiBib": false,
       "watch": false,
@@ -22,8 +24,20 @@
       "ci": false,
       "maxSizeWebp": 1572864,
       "keepHost": false
-    },
-    "performSiteBuild": true
+    }
   },
-  "exports": []
+  "exports": [
+    {
+      "format": "pdf",
+      "output": "/home/jovyan/projects/final-group10/pdf_builds/03_acs_data_bay_area.pdf",
+      "articles": [
+        {
+          "file": "/home/jovyan/projects/final-group10/analysis/03_acs_data_bay_area.ipynb",
+          "level": 0
+        }
+      ],
+      "$file": "/home/jovyan/projects/final-group10/analysis/03_acs_data_bay_area.ipynb",
+      "$project": "/home/jovyan/projects/final-group10"
+    }
+  ]
 }

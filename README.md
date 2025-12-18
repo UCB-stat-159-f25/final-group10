@@ -42,9 +42,9 @@ The primary outcome of interest is median home value.
 
 **`Main.ipynb`**: Main project notebook summarizing methods, results, and findings
 
-**`01_holc_timeseries_exploration.ipynb`**: National-level HOLC time series exploration  
-**`holc_redlining_bay_area.ipynb`**: Bay Area HOLC and ACS spatial analysis  
-**`ACSdataPlots.ipynb`**: ACS data exploration
+**`01_holc_timeseries.ipynb`**: National-level HOLC time series exploration  
+**`02_holc_redlining_bay_area.ipynb`**: Bay Area HOLC and ACS spatial analysis  
+**`03_acs_data_bay_area.ipynb`**: ACS data exploration
 
 **`environment.yml`**: Conda environment file specifying required packages
 
